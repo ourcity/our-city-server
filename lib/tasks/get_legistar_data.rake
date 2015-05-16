@@ -55,14 +55,14 @@ namespace :legistar_data do
   task events: [:environment] do
     response = LegistarService.events
 
-    response[:events].each do |event|
-      event = Event.where(id: event['EventId']).first_or_initialize
-      event.body_id = event['BodyId']
-      event.date = event['EventDate']
-      event.time = event['EventTime']
-      event.agenda_status = event['EventAgendaStatusName']
-      event.minute_status = event['EventMinuteStatusName']
-      event.location = event['EventLocation']
+    response[:events].each do |x|
+      event = Event.where(id: x['EventId']).first_or_initialize
+      event.body_id = x['BodyId']
+      event.date = x['EventDate']
+      event.time = x['EventTime']
+      event.agenda_status = x['EventAgendaStatusName']
+      event.minute_status = x['EventMinuteStatusName']
+      event.location = x['EventLocation']
       event.save!
 
       puts "Updated info for event #{event.id}"
@@ -73,12 +73,12 @@ namespace :legistar_data do
   task matter_statuses: [:environment] do
     response = LegistarService.matter_statuses
 
-    response[:matter_statuses].each do |matter_status|
-      matter_status = MatterStatus.where(id: matter_status['MatterStatusId']).first_or_initialize
-      matter_status.name = matter_status['MatterStatusName']
-      matter_status.used_flag = matter_status['MatterStatusUsedFlag']
-      matter_status.active_flag = matter_status['MatterStatusActiveFlag']
-      matter_status.description = matter_status['MatterStatusDescription']
+    response[:matter_statuses].each do |x|
+      matter_status = MatterStatus.where(id: x['MatterStatusId']).first_or_initialize
+      matter_status.name = x['MatterStatusName']
+      matter_status.used_flag = x['MatterStatusUsedFlag']
+      matter_status.active_flag = x['MatterStatusActiveFlag']
+      matter_status.description = x['MatterStatusDescription']
       matter_status.save!
 
       puts "Updated info for body #{body.name}"
