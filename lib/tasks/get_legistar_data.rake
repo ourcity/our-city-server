@@ -69,6 +69,38 @@ namespace :legistar_data do
     end
   end
 
+  desc "load event items from legistar API"
+  task event_items: [:environment] do
+    response = LegistarService.event_items
+
+    response[:event_items].each do |x|
+      event_item = EventItem.where(id: x['EventId']).first_or_initialize
+      event_item.body_id = x['BodyId']
+      event_item.date = x['EventDate']
+      event_item.time = x['EventTime']
+      event_item.agenda_status = x['EventAgendaStatusName']
+      event_item.minute_status = x['EventMinuteStatusName']
+      event_item.location = x['EventLocation']
+      event_item.save!
+
+      puts "Updated info for event #{event_item.id}"
+    end
+  end
+
+  desc "load actions from legistar API"
+  task actions: [:environment] do
+    response = LegistarService.actions
+
+    response[:actions].each do |x|
+      matter_status = MatterStatus.where(id: x['MatterStatusId']).first_or_initialize
+      matter_status.name = x['ActionName']
+      matter_status.active_flag = x['ActionActiveFlag']
+      matter_status.save!
+
+      puts "Updated info for action #{action.name}"
+    end
+  end
+
   desc "load matter_statuses from legistar API"
   task matter_statuses: [:environment] do
     response = LegistarService.matter_statuses

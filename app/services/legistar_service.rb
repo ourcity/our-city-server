@@ -57,5 +57,27 @@ class LegistarService
     result
   end
 
+  def self.actions
+    response = HTTParty.get("http://webapi.legistar.com/v1/minneapolismn/actions")
+
+    result = {status: :error}
+    if response.code.to_s == "200"
+      result[:status] = :success
+      result[:people] = response
+    end
+    result
+  end
+
+  def self.event_items(event_id)
+    response = HTTParty.get("http://webapi.legistar.com/v1/minneapolismn/events/#{event_id}/event_items?AgendaNote=1&MinutesNote=1")
+
+    result = {status: :error}
+    if response.code.to_s == "200"
+      result[:status] = :success
+      result[:people] = response
+    end
+    result
+  end
+
 end
 

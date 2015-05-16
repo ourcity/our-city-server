@@ -3,7 +3,6 @@ source 'https://rubygems.org'
 ruby "2.2.2"
 
 gem 'rails', '4.2.1'
-gem 'pg'
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.1.0'
@@ -21,6 +20,7 @@ gem 'awesome_print'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
+  gem 'sqlite3'
   gem 'byebug'
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'
@@ -38,4 +38,8 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'guard', '>=2.1.0'
   gem 'guard-rspec'
+end
+
+group :production do
+  gem 'pg'
 end
