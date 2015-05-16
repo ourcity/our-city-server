@@ -123,5 +123,16 @@ class LegistarService
     result
   end
 
+  def self.roll_calls(event_item_id)
+    response = HTTParty.get("http://webapi.legistar.com/v1/minneapolismn/EventItems/" + event_item_id.to_s + "/RollCalls")
+
+    result = {status: :error}
+    if response.code.to_s == "200"
+      result[:status] = :success
+      result[:rollcalls] = response
+    end
+    result
+  end
+
 end
 

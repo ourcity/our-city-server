@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150516202533) do
+ActiveRecord::Schema.define(version: 20150516210651) do
 
   create_table "actions", force: :cascade do |t|
     t.string   "name"
@@ -41,6 +41,46 @@ ActiveRecord::Schema.define(version: 20150516202533) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "committee_members", force: :cascade do |t|
+    t.integer  "committee_id"
+    t.integer  "council_member_id"
+    t.boolean  "chair"
+    t.boolean  "vice_chair"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+  end
+
+  add_index "committee_members", ["committee_id"], name: "index_committee_members_on_committee_id"
+  add_index "committee_members", ["council_member_id"], name: "index_committee_members_on_council_member_id"
+
+  create_table "committees", force: :cascade do |t|
+    t.integer  "body_id"
+    t.string   "name"
+    t.string   "comm_type"
+    t.string   "info_url"
+    t.string   "code"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "committees", ["body_id"], name: "index_committees_on_body_id"
+
+  create_table "council_members", force: :cascade do |t|
+    t.string   "ward"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "ward_url"
+    t.string   "image_url"
+    t.string   "email"
+    t.string   "phone"
+    t.string   "neighborhoods"
+    t.integer  "person_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  add_index "council_members", ["person_id"], name: "index_council_members_on_person_id"
 
   create_table "event_items", force: :cascade do |t|
     t.integer  "event_id"
@@ -132,6 +172,19 @@ ActiveRecord::Schema.define(version: 20150516202533) do
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
   end
+
+  create_table "roll_calls", force: :cascade do |t|
+    t.integer  "person_id"
+    t.string   "value_name"
+    t.integer  "call_sort"
+    t.integer  "result"
+    t.integer  "event_item_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  add_index "roll_calls", ["event_item_id"], name: "index_roll_calls_on_event_item_id"
+  add_index "roll_calls", ["person_id"], name: "index_roll_calls_on_person_id"
 
   create_table "vote_types", force: :cascade do |t|
     t.string   "name"

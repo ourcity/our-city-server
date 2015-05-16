@@ -212,4 +212,33 @@ namespace :legistar_data do
     end
   end
 
+  desc "load roll calls from legistar API"
+  task roll_calls: [:environment] do
+    EventItem.all.each do |event_item|
+
+      response = LegistarService.roll_calls(event_item.id)
+      if response[:status] == "200"
+        response[:roll_calls].each do |x|
+          # roll_call = EventItem.where(id: x['EventId']).first_or_initialize
+          # roll_call.event_id = x['EventItemEventId']
+          # roll_call.date = x['EventDate']
+          # roll_call.time = x['EventTime']
+          # roll_call.agenda_sequence = x['EventItemAgendaSequence']
+          # roll_call.minute_sequence = x['EventItemMinuteSequence']
+          # roll_call.agenda_note = x['EventItemAgendaNote']
+          # roll_call.minute_note = x['EventItemMinuteNote']
+          # roll_call.action_id = x['EventItemActionId']
+          # roll_call.passed_flag = x['EventItemPassedFlag']
+          # roll_call.passed_flag_name = x['EventItemPassedFlagName']
+          # roll_call.roll_call_flag = x['EventItemRollCallFlag']
+          # roll_call.save!
+
+          # puts "Updated info for event #{event_item.title}"
+        end
+      else
+        puts "bad request"
+      end
+    end
+  end
+
 end

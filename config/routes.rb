@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   namespace :api, defaults: {format: 'json'} do
     scope module: :v1, constraints: ApiConstraints.new(version: 1, default: true) do
       get 'events' => 'events#index'
+      resources :council_members
     end
   end
 
